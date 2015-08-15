@@ -15,12 +15,15 @@ end
 
 start_time = Time.now
 page     = @agent.get(BASE_URL)
-today    = page.search('#today').text
-tomorrow = page.search('#tomorrow').text
-future   = page.search('#next_two_weeks').text
+today    = "Today: #{page.search('#today i').text}"
+tomorrow = "Tomorrow: #{page.search('#tomorrow i').text}"
+future_items = page.search("#next_two_weeks ul li").each do |list|
+  puts "#{list.text}".colorize :background => :black, :color => :white
+end
+
 end_time = Time.now
 
-calander = "#{today} #{tomorrow} #{future}".gsub(/\u00a0/, '')
+calander = "#{today}\n#{tomorrow}\n#{future_items}"
 search_time = end_time - start_time
 
 puts calander
